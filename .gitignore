@@ -1,4 +1,29 @@
-.gradle
-build
-.idea
+# --- Maven Build-Ausgaben ---
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.next
+pom.xml.versionsBackup
+release.properties
+dependency-reduced-pom.xml
+build.log
 
+# --- IntelliJ IDEA ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# --- Visual Studio Code ---
+.vscode/
+
+# --- Betriebssystem-Dateien ---
+Thumbs.db
+.DS_Store
+.directory
+
+# --- Log-Dateien und temporäre Dateien ---
+*.log
+/logs/
+/tmp/
