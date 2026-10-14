@@ -6,7 +6,8 @@ WORKDIR /app
 
 # 3. Schritt: Kopiere die gebaute JAR-Datei in den Container
 # (Achte darauf, dass der Name exakt zu deiner pom.xml passt!)
-COPY target/java-maven-app-1.1.0-SNAPSHOT.jar app.jar
+# COPY target/java-maven-app-1.1.0-SNAPSHOT.jar app.jar
+COPY target/java-maven-app-*.jar app.jar
 
 # 4. Schritt: Port 8080 für den Container freigeben
 EXPOSE 3080
