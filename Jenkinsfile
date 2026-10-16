@@ -61,7 +61,7 @@ pipeline {
                     def dockerCmd = "docker run -p 3080:3080 -d tomkley/demo-app:${IMAGE_NAME}"
                     sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${dockerCmd}"
-                    //}
+                    }
                 }
             }               
         }
