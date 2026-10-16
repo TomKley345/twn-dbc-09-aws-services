@@ -51,20 +51,21 @@ pipeline {
                     def ec2Instance = "ec2-user@16.170.133.212"
 
                     // sshagent(['ec2-server-key']) {
-                    sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
-                        sh "scp server-cmds.sh ${ec2Instance}:/home/ec2-user"
-                        sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
-                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
-                    }
-
-                    // echo "deploying the maven app"
-                    // def dockerCmd = 'docker run -p 3080:3080 -d tomkley/demo-app:2.1'
                     // sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
-                       // sh "ssh -o StrictHostKeyChecking=no ec2-user@16.170.133.212 ${dockerCmd}"
+                    //     sh "scp server-cmds.sh ${ec2Instance}:/home/ec2-user"
+                    //     sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
+                    //     sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
+                    // }
+
+                    echo "..., deploying the maven app"
+                    def dockerCmd = "docker run -p 3080:3080 -d tomkley/demo-app:${IMAGE_NAME}"
+                    sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
+                       sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${dockerCmd}"
                     //}
                 }
             }               
         }
+
         stage('commit version update'){
             steps {
                 script {
