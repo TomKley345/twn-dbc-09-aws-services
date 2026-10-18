@@ -47,7 +47,6 @@ pipeline {
                 script {
                     echo 'deploying docker image to EC2...'
 
-                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
                     def ec2Instance = "ec2-user@16.170.133.212"
 
                     // sshagent(['ec2-server-key']) {
@@ -59,11 +58,14 @@ pipeline {
 
                     echo "..., deploying the maven app"
                     // def dockerCmd = "docker run -p 3080:3080 -d tomkley/demo-app:${IMAGE_NAME}"
-                    def dockerComposeCmd = "docker-compose -f docker-compose.yaml up --detach"
+                    // def dockerComposeCmd = "docker-compose -f docker-compose.yaml up --detach"
+                    def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME}"
+                    
                     sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
                         // echo "logging inside ec2"
+                        sh "scp server-cmds.sh ${ec2Instance}:/home/ec2-user"
                         sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
-                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${dockerComposeCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${shellCmd}"
                     }
                 }
             }               
@@ -72,12 +74,13 @@ pipeline {
         stage('commit version update'){
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-                        sh 'git remote set-url origin https://$USER:$PASS@gitlab.com/twn-devops-bootcamp/latest/09-AWS/java-maven-app.git'
-                        sh 'git add .'
-                        sh 'git commit -m "ci: version bump"'
-                        sh 'git push origin HEAD:jenkins-jobs'
-                    }
+                    echo "committing version update ..."
+                    // withCredentials([usernamePassword(credentialsId: 'gitlab-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                        // sh 'git remote set-url origin https://$USER:$PASS@gitlab.com/twn-devops-bootcamp/latest/09-AWS/java-maven-app.git'
+                        // sh 'git add .'
+                        // sh 'git commit -m "ci: version bump"'
+                        // sh 'git push origin HEAD:jenkins-jobs'
+                    // }
                 }
             }
         }

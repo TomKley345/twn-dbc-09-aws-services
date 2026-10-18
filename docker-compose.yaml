@@ -1,6 +1,6 @@
 services:
   java-maven-app:
-    image: tomkley/demo-app:1.1.16
+    image: tomkley/demo-app:${IMAGE}
     ports:
       - 8080:8080
   postgres:
