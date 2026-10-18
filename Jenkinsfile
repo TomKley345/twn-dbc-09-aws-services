@@ -58,9 +58,12 @@ pipeline {
                     // }
 
                     echo "..., deploying the maven app"
-                    def dockerCmd = "docker run -p 3080:3080 -d tomkley/demo-app:${IMAGE_NAME}"
+                    // def dockerCmd = "docker run -p 3080:3080 -d tomkley/demo-app:${IMAGE_NAME}"
+                    def dockerComposeCmd = "docker-compose -f docker-compose.yml up --detach"
                     sshagent(credentials: ['00c30b53-0e90-4575-b664-73b8e14d3ff0']) {
-                       sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${dockerCmd}"
+                        // echo "logging inside ec2"
+                        sh "scp docker-compose.yaml ${ec2Instance}:/home/ec2-user"
+                        sh "ssh -o StrictHostKeyChecking=no ${ec2Instance} ${dockerComposeCmd}"
                     }
                 }
             }               
