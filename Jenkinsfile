@@ -87,7 +87,7 @@ pipeline {
 
         stage('Push version update to GitHub via HTTPS') {
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', passwordVariable: 'GIT_USERNAME', usernameVariable: 'GIT_PASSWORD')]) {
                     sh """
                         # 1. Git-Identität für den Commit-Eintrag setzen
                         git config user.name "TomKley345"
