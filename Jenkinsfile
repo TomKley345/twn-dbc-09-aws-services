@@ -87,20 +87,21 @@ pipeline {
 
         stage('Push version update to GitHub via HTTPS') {
             steps {
-                // Ruft das in Schritt 1 erstellte Credential auf
-                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', gitToolName: 'Default')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
                     sh """
                         # 1. Git-Identität für den Commit-Eintrag setzen
                         git config user.name "TomKley345"
                         git config user.email "tk345@gmx.de"
                         
-                        # 2. WICHTIG: Die Remote-URL explizit auf HTTPS umstellen
-                        git remote set-url origin git@github.com:TomKley345/twn-dbc-09-aws-services.git
-
+                        # 2. Änderungen committen (falls noch nicht geschehen)
                         git add .
-                        git commit -m "Jenkins ci: bumping up the version"
-
-                        # 3. Den Push durchführen
+                        git commit -m "Jenkins ci: bumping up the version" || echo "Keine Änderungen zu committen"
+                        
+                        # 3. Die Remote-URL von SSH auf HTTPS mit Token-Authentifizierung umschreiben
+                        # Ersetzen Sie 'IHRE_ORGA/IHR_REPO' mit Ihrem echten GitHub-Pfad
+                        git remote set-url origin https://${GH_USER}:${GH_TOKEN}@://github.com
+                        
+                        # 4. Den Push auf den Ziel-Branch ausführen
                         git push origin HEAD:jenkins-shared-pipeline
                     """
                 }
