@@ -84,5 +84,27 @@ pipeline {
                 }
             }
         }
+
+        stage('Push version update to GitHub via HTTPS') {
+            steps {
+                // Ruft das in Schritt 1 erstellte Credential auf
+                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', gitToolName: 'Default')]) {
+                    sh """
+                        # 1. Git-Identität für den Commit-Eintrag setzen
+                        git config user.name "Jenkins CI"
+                        git config user.email "jenkins@yourdomain.com"
+                        
+                        # 2. WICHTIG: Die Remote-URL explizit auf HTTPS umstellen
+                        git remote set-url origin git@github.com:TomKley345/twn-dbc-09-aws-services.git
+
+                        git add .
+                        git commit -m "Jenkins ci: bumping up the version"
+
+                        # 3. Den Push durchführen
+                        git push origin HEAD:dynamic-version-update
+                    """
+                }
+            }
+        }
     }
 }
