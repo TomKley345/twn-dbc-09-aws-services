@@ -91,8 +91,8 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', gitToolName: 'Default')]) {
                     sh """
                         # 1. Git-Identität für den Commit-Eintrag setzen
-                        git config user.name "Jenkins CI"
-                        git config user.email "jenkins@yourdomain.com"
+                        git config user.name "TomKley345"
+                        git config user.email "tk345@gmx.de"
                         
                         # 2. WICHTIG: Die Remote-URL explizit auf HTTPS umstellen
                         git remote set-url origin git@github.com:TomKley345/twn-dbc-09-aws-services.git
