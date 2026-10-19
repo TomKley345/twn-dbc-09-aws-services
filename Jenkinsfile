@@ -99,8 +99,8 @@ pipeline {
                         
                         # 3. Die Remote-URL von SSH auf HTTPS mit Token-Authentifizierung umschreiben
                         # Ersetzen Sie 'IHRE_ORGA/IHR_REPO' mit Ihrem echten GitHub-Pfad
-                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@://github.com
-                 
+                        git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@://github.com
+                
                         # 4. Den Push auf den Ziel-Branch ausführen
                         git push origin HEAD:jenkins-shared-pipeline
                     """
