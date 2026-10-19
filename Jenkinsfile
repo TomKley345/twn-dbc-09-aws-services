@@ -98,7 +98,8 @@ pipeline {
                         git commit -m "Jenkins ci: bumping up the version" || echo "Keine Änderungen zu committen"
                         
                         # 3. Die Remote-URL von SSH auf HTTPS mit Token-Authentifizierung umschreiben
-                        git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@://github.com\${GIT_USERNAME}/twn-dbc-09-aws-services.git
+                        # https://github.com/TomKley345/twn-dbc-09-aws-services.git
+                        git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@://github.com/\${GIT_USERNAME}/twn-dbc-09-aws-services.git
                 
                         # 4. Den Push auf den Ziel-Branch ausführen
                         git push origin HEAD:jenkins-shared-pipeline
