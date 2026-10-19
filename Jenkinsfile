@@ -87,7 +87,7 @@ pipeline {
 
         stage('Push version update to GitHub via HTTPS') {
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token', usernameVariable: 'GH_USER', passwordVariable: 'GH_TOKEN')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'github-https-token')]) {
                     sh """
                         # 1. Git-Identität für den Commit-Eintrag setzen
                         git config user.name "TomKley345"
@@ -99,8 +99,8 @@ pipeline {
                         
                         # 3. Die Remote-URL von SSH auf HTTPS mit Token-Authentifizierung umschreiben
                         # Ersetzen Sie 'IHRE_ORGA/IHR_REPO' mit Ihrem echten GitHub-Pfad
-                        git remote set-url origin https://${GH_USER}:${GH_TOKEN}@://github.com
-                        
+                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@://github.com
+                 
                         # 4. Den Push auf den Ziel-Branch ausführen
                         git push origin HEAD:jenkins-shared-pipeline
                     """
