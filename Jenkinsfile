@@ -101,7 +101,7 @@ pipeline {
                         git commit -m "Jenkins ci: bumping up the version"
 
                         # 3. Den Push durchführen
-                        git push origin HEAD:dynamic-version-update
+                        git push origin HEAD:jenkins-shared-pipeline
                     """
                 }
             }
