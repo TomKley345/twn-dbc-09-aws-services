@@ -10,7 +10,7 @@ WORKDIR /app
 COPY target/java-maven-app-*.jar app.jar
 
 # 4. Schritt: Port 8080 für den Container freigeben
-EXPOSE 3080
+EXPOSE 8080
 
 # 5. Schritt: Befehl zum Starten der Anwendung definieren
 ENTRYPOINT ["java", "-jar", "app.jar"]
